@@ -9,8 +9,16 @@ namespace DAL.DTOs
     public enum OrderBy
     {
         LastActive,
+        LastActiveDesc,
         Created,
-        Age
+        CreatedDesc,
+        Age,
+        AgeDesc
+    }
+    public enum SortOrder
+    {
+        Asc,
+        Desc
     }
     public class UserParams
     {

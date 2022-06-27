@@ -40,8 +40,11 @@ namespace DAL.Repositories
             query = query.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
             query = userParams.OrderBy switch
             {
-                OrderBy.Created => query.OrderByDescending(x => x.Created),
+                OrderBy.Created => query.OrderBy(x => x.Created),
+                OrderBy.CreatedDesc => query.OrderByDescending(x => x.Created),
                 OrderBy.Age => query.OrderByDescending(x => x.DateOfBirth),
+                OrderBy.AgeDesc => query.OrderByDescending(x => x.DateOfBirth),
+                OrderBy.LastActive => query.OrderBy(x => x.LastActive),
                 _ => query.OrderByDescending(u => u.LastActive),
             };
 
