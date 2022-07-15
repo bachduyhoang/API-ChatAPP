@@ -54,6 +54,19 @@ namespace WebApi.Controllers
             return Ok(users);
         }
 
+        [HttpGet("getme")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<UserInforResponse>>> GetMe()
+        {
+            var email = User.GetEmail();
+            var user = await _userRepository.GetMe(email);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            return BadRequest("Invalid user");
+        }
+
         [HttpGet("user-and-photo-by-email")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsersAndPhotosByEmail(string email)
         {

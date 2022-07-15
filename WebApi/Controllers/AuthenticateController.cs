@@ -26,8 +26,8 @@ namespace WebApi.Controllers
             _configuration = configuration;
         }
 
-        [HttpPost("/register")]
-        public async Task<ActionResult<UserDTO>> Register(RegisterDTO dto) 
+        [HttpPost("register")]
+        public async Task<ActionResult<RegisterResponse>> Register(RegisterDTO dto) 
         {
             if(!ModelState.IsValid)
             {
@@ -56,8 +56,8 @@ namespace WebApi.Controllers
             return BadRequest("Cannot create user");
         }
 
-        [HttpPost("/login")]
-        public async Task<ActionResult<UserDTO>> Login(LoginDTO dto)
+        [HttpPost("login")]
+        public async Task<ActionResult<TokenResponseDTO>> Login(LoginDTO dto)
         {
             if (!ModelState.IsValid)
             {
@@ -67,7 +67,7 @@ namespace WebApi.Controllers
             var user = await _userRepository.GetUserByEmail(dto.Email);
 
             if (user == null)
-                return Unauthorized("User is invalid!");
+                return BadRequest("User is invalid!");
 
             var hmac = new HMACSHA512(user.PasswordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(dto.Password));
@@ -75,7 +75,7 @@ namespace WebApi.Controllers
             for(int i=0 ; i<computedHash.Length; i++)
             {
                 if(computedHash[i] != user.PasswordHash[i]){
-                    return Unauthorized("Invalid password");
+                    return BadRequest("Invalid password");
                 }
             }
 
@@ -98,7 +98,7 @@ namespace WebApi.Controllers
                     RefreshToken = user.RefreshToken,
                     Expiration = token.ValidTo
                 });
-            return Unauthorized();
+            return BadRequest();
         }
 
         [HttpPost("refresh")]

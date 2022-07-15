@@ -20,12 +20,16 @@ namespace DAL.EF
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new PhotoConfiguration());
             modelBuilder.ApplyConfiguration(new UserLikeConfiguration());
+            modelBuilder.ApplyConfiguration(new MessageConfiguration());
+
             modelBuilder.Seed();
             //base.OnModelCreating(modelBuilder);
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<UserLike> Likes { get; set; }
+        public DbSet<Message> Messages { get; set; }
+
 
     }
 }

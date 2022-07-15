@@ -13,5 +13,6 @@ namespace DAL.Interface
         Task<User> GetUserByEmail(string email);
         Task<IEnumerable<User>> GetUsersAndPhoto();
         Task<PagedList<MemberDTO>> GetUsers(UserParams userParams);
+        Task<UserInforResponse> GetMe(string email);
     }
 }

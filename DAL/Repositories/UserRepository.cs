@@ -22,6 +22,13 @@ namespace DAL.Repositories
             _mapper = mapper;
         }
 
+        public async Task<UserInforResponse> GetMe(string email)
+        {
+            var user =  await _context.Users.Include(x => x.Photos)
+                .SingleOrDefaultAsync(x => x.Email == email);
+            return _mapper.Map<UserInforResponse>(user);
+        }
+
         public async Task<User> GetUserByEmail(string email)
         {
             return await _context.Users.Include(x => x.Photos).SingleOrDefaultAsync(x => x.Email == email);
@@ -38,6 +45,7 @@ namespace DAL.Repositories
             var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
 
             query = query.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
+
             query = userParams.OrderBy switch
             {
                 OrderBy.Created => query.OrderBy(x => x.Created),

@@ -25,6 +25,7 @@ namespace DAL.Extentions
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IPhotoService, PhotoService>();
             services.AddTransient<ILikesRepository, LikesRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddTransient<LogUserActivity>();
             services.AddTransient<IUserRepository, UserRepository>();
 
